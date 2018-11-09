@@ -1,0 +1,22 @@
+=head2 Mon Oct 15 12:05:22 2018: C<Module> L<IMPAC|IMPAC>
+
+=over 4
+
+=item *
+
+C<installed into: /mnt/c/Users/luisd/OneDrive/LingProg/Trabalho//share/perl/5.26.1>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.01>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
