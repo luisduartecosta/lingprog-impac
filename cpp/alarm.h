@@ -15,20 +15,26 @@ class Alarm {
         string getAlarmTime();
         void setAlarmFileName(string);
         string getAlarmFileName();
-        void setPlant(Plant);
-        Plant getPlant();
         void setAlarmStatus(string);
         string getAlarmStatus();
+        void setAlarmPlant();
+        string getAlarmPlant();
+        void setAlarmType();
+        string getAlarmType();
+        void setAlarmProtocol();
+        string getAlarmProtocol();
 
         void addSensor(Sensor &);
         void deleteSensor(string);
         void showAlarm();
         
     private:
-        Plant plant;
         vector <Sensor *> vSensors;
         string date;
         string time;
         string fileName;
         string status;
+        string plant;
+        string protocol;
+        string type;
 };

@@ -14,13 +14,21 @@ void Alarm::setAlarmFileName(string newFileName) {fileName = newFileName;};
 
 string Alarm::getAlarmFileName() {return fileName;};
 
-void Alarm::setPlant(Plant plant;);
-
-Plant Alarm::getPlant() {return plant;};
-
 void Alarm::setAlarmStatus(string newStatus) {status = newStatus;};
 
 string Alarm::getAlarmStatus() {return alarm;};
+
+void Alarm::setAlarmPlant(string newName) {name = newName;};
+
+string Alarm::getAlarmPlant() {return name;};
+
+void Alarm::setAlarmType(string newType) {type = newType;};
+
+string Alarm::getAlarmType() {return type;};
+
+void Alarm::setAlarmProtocol(string newProtocol) {protocol = newProtocol;};
+
+string Alarm::getAlarmProtocol() {return protocol;};
 
 void Alarm::addSensor(Sensor &newSensor) {
     vSensors.push_back(&newSensor);
@@ -37,11 +45,11 @@ void Alarm::deleteSensor(string sensorName) {
 };
 
 void Alarm::showAlarm() {
-    cout << getAlarmDate() << " " << getAlarmTime() << " from " << plany.getPlantType() << "at " << plant.getPlantName << " : \n\n" << endl;
+    cout << getAlarmDate() << " " << getAlarmTime() << " from " << getAlarmType() << "at " << getAlarmPlant() << " : \n\n" << endl;
     for (unsigned i=0; i < vSensors.size(); i++) {
         vSensors.at(i)->showData();
     }
     cout << "\n\n-----------------------------------------------" << endl;
-    cout << "File: " << getAlarmFileName() << " , Protocol: " << plant.getPlantProtocol() << "Total Sensors: " << vSensors.size() << endl;
+    cout << "File: " << getAlarmFileName() << " , Protocol: " << getAlarmProtocol() << "Total Sensors: " << vSensors.size() << endl;
 };
 
