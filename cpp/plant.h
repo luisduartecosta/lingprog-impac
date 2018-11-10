@@ -5,20 +5,14 @@ using namespace std;
 
 class Plant {
     public:
-        Plant();
-        ~Plant();
-
-        void addPlant(string, string, string);
-        void deletePlant(string);
-        void showPlants();
-        void showPlants(string);
-
+        Plant(string, string, string);
         void setPlantName();
         string getPlantName();
         void setPlantType();
         string getPlantType();
         void setPlantProtocol();
         string getPlantProtocol();
+        void showPlant();
         
     private:
         string name;
