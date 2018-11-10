@@ -1,8 +1,27 @@
+#include <stddef.h>
+#include <string>
 #include "perlToC++.h" 
 
+// EXTERN_c void xs_init (pTHX);
 
-PerlWrapper::PerlWrapper() {
-    PERL_SYS_INIT3(); //macro de inicio
+// EXTERN_C void boot_DynaLoader (pTHX_CV* cv);
+
+// EXTERN_C void 
+// xs_init(pTHX)  
+// {
+//     static const char file[] = __FILE__;
+//     dXSUB_SYS;
+//     PERL_UNUSED_CONTEXT;
+
+//     newXS("DynaLoader::boot_DynaLoader",boot_DynaLoader,file);
+// }
+
+PerlWrapper::PerlWrapper(string script="hello") {
+    int dummy_argc = 0;
+    char*** dummy_env = 0;
+    char string[]={};
+    
+    PERL_SYS_INIT3(&dummy_argc, dummy_env, dummy_env); //macro de inicio
 
     my_perl = perl_alloc();
     perl_construct(my_perl);
@@ -15,10 +34,12 @@ PerlWrapper::~PerlWrapper() {
     PERL_SYS_TERM();
 }
 
-void PerlWrapper::runInterpreterPerlFile (char *file){
-    my_argv[0]= **;
-    my_argv[1]= file;
-    perl_parse(my_perl,0,2,my_argv,(char **)NULL );
+void PerlWrapper::interpreterPerl (){
+    char _MYARGV_PERL_MODULE_NAME[] = "main.pl";
+    char _MYARGV_NOTHING_NAME[]=""; // nao por nada aqui
+    char *my_argv[]={static_cast<char*>(_MYARGV_NOTHING_NAME), static_cast<char*>(_MYARGV_PERL_MODULE_NAME)};
+
+    perl_parse(my_perl,0,2,my_argv,NULL );
     perl_run(my_perl);
 }
 
@@ -27,12 +48,14 @@ int PerlWrapper::checkPlant (string nomePlanta, string nomeArq,string perlFunc){
     ENTER;
     SAVETMPS;
     PUSHMARK(SP);
-    XPUSHs(sv_2mortal(newSVpv(nomePlanta.c_str()),nomeArq.c_str());
+    XPUSHs(sv_2mortal (newSVpv(nomePlanta.c_str(),nomePlanta.length());
+    XPUSHs(sv_2mortal (newSVpv(nomeArq.c_str(),nomeArq.length())));
+    
     PUTBACK;
     call_pv (perlFunc.c_str(), G_SCALAR);
     SPAGAIN;
 
-    int resultado= POPi;
+    int resultado= POPi; //POPp para retornar string
     PUTBACK;
     FREETMPS; //libera o valor de retorno
     LEAVE;

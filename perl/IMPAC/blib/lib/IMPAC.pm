@@ -33,7 +33,9 @@ our @EXPORT = qw(
 
 our $VERSION = '0.01';
 
-
+# Sub rotina para ler todas as linhas de um arquivo.
+# Esta rotina recebe um nome de arquivo e retorna um array com as todas as linhas.
+# uso: @array = getLines ($nome_arquivo)
 sub getLines {
     my @array;
     
@@ -44,19 +46,25 @@ sub getLines {
     return @array;
 }
 
+# Sub rotina para limpar as linhas sem dados.
+# Busca facilitar a coleta de dados dos sensores.
+# Uso : @array = removeEmptyLines (@array_original)
 sub removeEmptyLines {
     my @arrayFull = @_;
     my @arrayClean;
 
     foreach my $line (0 .. $#arrayFull) {
         unless ($arrayFull[$line] =~ /^[\s-]/) { #or $arrayFull[$i] =~ /^-/) {
-            push @arrayClean, $arrayFull[$i];
+            push @arrayClean, $arrayFull[$line];
         }
     }
 
     return @arrayClean;
 }
 
+# Sub rotina para recupear os dados de identificação do alarme.
+# Recebe um array como argumento e retorna um hash, onde as chaves são os parametros desejados.
+# Uso : %hash = getHeaderDdata (@array).
 sub getHeaderData {
     my @array = @_;
     my %hash;
@@ -86,6 +94,11 @@ sub getHeaderData {
     return %hash;
 }
 
+# Sub rotina para verificar se o nome da planta de origem é o mesmo do emissor do alarme.
+# Esta rotina compara duas strings, onde a primera deve ser o nome da planta e a segunda o nome do arquivo.
+# Uso : checkPlant ($planta, $nome_arquivo)
+# 1 : São iguais
+# 0 : São Diferentes
 sub checkPlant {    
     if ($_[1] =~ /^($_[0])/) {
         return 1;
@@ -95,6 +108,10 @@ sub checkPlant {
     }
 }
 
+# Sub rotina para verificar a integridade do arquivo.
+# Buscando por caracteres especiais, oriundos de falhas na comunicação.
+# Retorna o número de caracteres com erro.
+# Uso : $qtd_erros = verifyIntegrity (@array)
 sub verifyIntegrity {
     my @array = @_;
     my $errors = 0;
@@ -107,6 +124,10 @@ sub verifyIntegrity {
     return $errors;
 }
 
+# Sub rotina para recuperar os dados de sensores.
+# utiliza a função removeEmptyLines para facilitar a extração
+# Recebe um array e retorna um array de hashes.
+# Uso : @array_hashes = getSensorsData (@array)
 sub getSensorsData {
     my @array = removeEmptyLines(@_);
     my %hash;
@@ -126,6 +147,9 @@ sub getSensorsData {
     return @arrayOfHash;
 }
 
+# Sub rotina para mover um arquivo já lido para uma pasta de archive.
+# Visa impedir que um arquivo seja lido mais de uma vez.
+# Uso : moveFile($nome_arquivo)
 sub moveFile {
     my @lines = getLines($_[0]);
 
@@ -142,7 +166,7 @@ __END__
 
 =head1 NAME
 
-IMPAC - Perl extension for blah blah blah
+IMPAC - Perl extension for IMPAC Application for monitoring.
 
 =head1 SYNOPSIS
 

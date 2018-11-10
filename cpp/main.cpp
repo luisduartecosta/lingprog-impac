@@ -3,7 +3,7 @@ main so cria a classa mainfuctions e chama as opcoes. mainfunctions vai executar
 */
 
 #include <iostream>
-#include <iomanip>
+//#include <iomanip>
 #include <string>
 #include "mainfunctions.h"
 #include "perlToC++.h"
@@ -14,10 +14,12 @@ using namespace std;
 int main () {
 
 PerlWrapper perlwrapper;
-MainFunctions functions;
+perlwrapper.interpreterPerl();
 
-perlwrapper.runInterpreterPerlFile("main.pl");
-functions.choosingOption();
+cout << "\nValor é:" << perlwrapper.checkPlant("checkPlant","ANHANG101347.X3","ANHANG101347.X3");
+
+MainFunctions functions;
+//functions.choosingOption();  SO PRA TESTAR O PERL ANTE DE FZR AS FUNCOES
 
 return 0;
 }

@@ -22,8 +22,7 @@ class MainFunctions {
 
 
 	private:
-	Util utilidades;
-	PerlWrapper perlwrapper;	
+	Util utilidades;	
 	vector <string> alarms; 
 	
 };

@@ -26,7 +26,7 @@ void MainFunctions::editAlarm (string target) {
 
 void MainFunctions::addNewPlant (){
 	cout << "\naddNewplant\n" << endl;
-	cout << "0 -valida  1- invalida\nResposta: " << perlwrapper.checkPlant("ANHANG101347.X3","ANHANG101347.X3","checkPlant") << endl;
+	cout << "0 -valida  1- invalida\nResposta: " << endl;
 
 }
 

@@ -1,5 +1,5 @@
 ---
-abstract: 'Perl extension for blah blah blah'
+abstract: 'Perl extension for IMPAC Application for monitoring.'
 author:
   - 'A. U. Thor <luisduartecosta@>'
 build_requires:

@@ -6,9 +6,9 @@ using namespace std;
 
 class PerlWrapper {
     public:
-    PerlWrapper();
+    PerlWrapper(string);
     ~PerlWrapper();
-    void runInterpreterPerlFile (char *file);
+    void interpreterPerl ();
     int checkPlant (string, string ,string perlFunc);
     
     private:
