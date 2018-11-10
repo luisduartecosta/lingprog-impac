@@ -3,30 +3,30 @@
 Sensor::Sensor(string newName, string newTime, string newStatus, string newLevel, string newObs)
     : name(newName), time(newTime), status(newStatus), level(newLevel), obs(newObs) {};
 
-void Sensor::setTime(string newTime) {time = newTime;};
+void Sensor::setSensorTime(string newTime) {time = newTime;};
 
-string Sensor::getTime() {return time;};
+string Sensor::getSensorTime() {return time;};
 
-void Sensor::setName(string newName) {name = newName;};
+void Sensor::setSensorName(string newName) {name = newName;};
 
-string Sensor::getName() {return name;};
+string Sensor::getSensorName() {return name;};
 
-void Sensor::setStatus(string newStatus) {status = newStatus;};
+void Sensor::setSensorStatus(string newStatus) {status = newStatus;};
 
-string Sensor::getStatus() {return status;};
+string Sensor::getSensorStatus() {return status;};
 
-void Sensor::setLevel(string newLevel) {level = newLevel;};
+void Sensor::setSensorLevel(string newLevel) {level = newLevel;};
 
-string Sensor::getLevel() {return level;};
+string Sensor::getSensorLevel() {return level;};
 
-void Sensor::setObs(string newObs) {obs = newObs;};
+void Sensor::setSensorObs(string newObs) {obs = newObs;};
 
-string Sensor::getObs() {return obs;};
+string Sensor::getSensorObs() {return obs;};
 
 void Sensor::showData() {
-    cout    << getTime() << " "
-            << getName() << "\t"
-            << getStatus() << "\t"
-            << getLevel() << "\t"
-            << getObs() << endl;
+    cout    << getSensorTime() << " "
+            << getSensorName() << "\t"
+            << getSensorStatus() << "\t"
+            << getSensorLevel() << "\t"
+            << getSensorObs() << endl;
 };

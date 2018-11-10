@@ -7,16 +7,16 @@ class Sensor {
     public:
         Sensor(string name, string time, string status, string level, string obs);
 
-        void setTime(string);
-        string getTime();
-        void setName(string);
-        string getName();
-        void setStatus(string);
-        string getStatus();
-        void setLevel(string);
-        string getLevel();
-        void setObs(string);
-        string getObs();
+        void setSensorTime(string);
+        string getSensorTime();
+        void setSensorName(string);
+        string getSensorName();
+        void setSensorStatus(string);
+        string getSensorStatus();
+        void setSensorLevel(string);
+        string getSensorLevel();
+        void setSensorObs(string);
+        string getSensorObs();
 
         void showData();
 

@@ -8,9 +8,20 @@ using namespace std;
 class Alarm {
     public:
         Alarm();
-        void addSensor();
-        void deleteAlarm(string);
-        void editAlarm(string);
+
+        void setAlarmDate(string);
+        string getAlarmDate();
+        void setAlarmTime(string);
+        string getAlarmTime();
+        void setAlarmFileName(string);
+        string getAlarmFileName();
+        void setPlant(Plant);
+        Plant getPlant();
+        void setAlarmStatus(string);
+        string getAlarmStatus();
+
+        void addSensor(Sensor &);
+        void deleteSensor(string);
         void showAlarm();
         
     private:
@@ -19,4 +30,5 @@ class Alarm {
         string date;
         string time;
         string fileName;
+        string status;
 };
