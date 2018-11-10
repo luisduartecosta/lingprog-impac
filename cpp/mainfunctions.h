@@ -2,7 +2,7 @@
 #include <iomanip>
 #include <vector>
 #include "util.h"
-//#include <list>
+#include "perlToC++.h"
 
 using namespace std;
 
@@ -22,7 +22,8 @@ class MainFunctions {
 
 
 	private:
-	Util utilidades;	
+	Util utilidades;
+	PerlWrapper perlwrapper;	
 	vector <string> alarms; 
 	
 };

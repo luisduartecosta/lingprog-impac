@@ -1,15 +1,11 @@
 #include "mainfunctions.h"
 
-MainFunctions::MainFunctions () {
-	//Util utilidades;
-}
+MainFunctions::MainFunctions () {}
 
-MainFunctions::~MainFunctions () {
-	
-}
+MainFunctions::~MainFunctions () {}
 
 vector<string> MainFunctions::importAlarms () {
-	vector<string> exemplo  = {"arthur ","petito"};
+	vector<string> exemplo  = {"\nimport","Alarms\n"};
 	for (unsigned i=0;i<exemplo.size();i++)
 		cout << exemplo[i];
 	cout << endl;
@@ -17,19 +13,21 @@ vector<string> MainFunctions::importAlarms () {
 } 
 
 void MainFunctions::showAlarms () {
-	cout << "\nshowAlarms" << endl;
+	cout << "\nshowAlarms\n" << endl;
 }
 
 void MainFunctions::removeAlarm (string target) {
-	cout << "\nremoveAlarm" << endl;
+	cout << "\nremoveAlarm\n" << endl;
 }
 
 void MainFunctions::editAlarm (string target) {
-	cout << "\neditAlarms" << endl;
+	cout << "\neditAlarms\n" << endl;
 }
 
 void MainFunctions::addNewPlant (){
-	cout << "\naddNewplant" << endl;
+	cout << "\naddNewplant\n" << endl;
+	cout << "0 -valida  1- invalida\nResposta: " << perlwrapper.checkPlant("ANHANG101347.X3","ANHANG101347.X3","checkPlant") << endl;
+
 }
 
 void MainFunctions::choosingOption (){
