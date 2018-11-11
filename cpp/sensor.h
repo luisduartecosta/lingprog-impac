@@ -5,6 +5,7 @@ using namespace std;
 
 class Sensor {
     public:
+        Sensor();
         Sensor(string name, string time, string status, string level, string obs);
 
         void setSensorTime(string);

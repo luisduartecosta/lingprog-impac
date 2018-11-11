@@ -25,11 +25,11 @@ return opt;
 void Util::menu(){
 
 cout << "------------- MENU -------------" <<endl;
-cout << "1 - iMPORTAR ALARMES"<< endl;
+cout << "1 - iMPORTAR ALARME"<< endl;
 cout << "2 - LISTAR TODOS OS ALARMES" << endl;
 cout << "3 - REMOVER ALARME" << endl;
 cout << "4 - EDITAR ALARME" << endl;
-cout << "5 - CADASTRAR NOVA PLANTA" << endl;
+cout << "5 - MOSTRAR DETALHES DO ALARME" << endl;
 cout << "0 - SAIR" << endl;
 
 } 

@@ -2,67 +2,100 @@
 
 MainFunctions::MainFunctions () {}
 
-MainFunctions::~MainFunctions () {}
+//Esta função recebe o nome do arquivo e passa para o perl
+// Alarm MainFunctions::importAlarm(string fileName) {
+// 	Alarm tmp;
+	
+// 	if (!perlverifyIntegrity(fileName)) {
+// 		perlGetHeaderData(fileName);
 
-vector<string> MainFunctions::importAlarms () {
-	vector<string> exemplo  = {"\nimport","Alarms\n"};
-	for (unsigned i=0;i<exemplo.size();i++)
-		cout << exemplo[i];
-	cout << endl;
-	return exemplo;
-} 
+// 	}
+	
 
-void MainFunctions::showAlarms () {
-	cout << "\nshowAlarms\n" << endl;
-}
+// 	//Passa o nome do arquivo para o perl
+// 		//abre arquivo perl, retorna dados
+
+
+// 	vAlarms.push_back(tmp);
+// };
+
+void MainFunctions::listAllAlarms () {
+	cout << "Alarme \t Data \t Hora \t Status\n\n" << endl;
+	for (unsigned i=0; i < vAlarms.size(); i++) {
+		cout 	<< vAlarms.at(i)->getAlarmFileName() << "\t"
+				<< vAlarms.at(i)->getAlarmDate() << "\t"
+				<< vAlarms.at(i)->getAlarmTime() << "\t"
+				<< vAlarms.at(i)->getAlarmStatus() << endl;
+	}
+};
 
 void MainFunctions::removeAlarm (string target) {
-	cout << "\nremoveAlarm\n" << endl;
-}
+	for (unsigned i=0; i < this->vAlarms.size(); i++) {
+        string tmp = this->vAlarms.at(i)->getAlarmFileName();
+        if (!tmp.compare(target)) {
+            vAlarms.erase(vAlarms.begin() + i);
+            break;
+        }
+    }
+	cout << "Alarme removido." << endl;
+};
 
-void MainFunctions::editAlarm (string target) {
-	cout << "\neditAlarms\n" << endl;
-}
+void MainFunctions::editAlarm (string target, string status) {
+	for (unsigned i=0; i< this->vAlarms.size(); i++) {
+		string tmp = this->vAlarms.at(i)->getAlarmFileName();
+		if (!tmp.compare(target)) {
+			vAlarms.at(i)->setAlarmStatus(status);
+		}
+	}
+	cout << "Status do alarme alterado." << endl;
+};
 
-void MainFunctions::addNewPlant (){
-	cout << "\naddNewplant\n" << endl;
-	cout << "0 -valida  1- invalida\nResposta: " << perlwrapper.checkPlant("ANHANG101347.X3","ANHANG101347.X3","checkPlant") << endl;
-
-}
+void MainFunctions::detailAlarm(string target) {
+	for (unsigned i=0; i < vAlarms.size(); i++) {
+		string tmp = this->vAlarms.at(i)->getAlarmFileName();
+		if (!tmp.compare(target)) {
+			vAlarms.at(i)->showAlarm();
+		}
+	}
+};
 
 void MainFunctions::choosingOption (){
 	int op=1;
+	string target;
+	vector<string> tmp = perlGetHeaderData("../ANHANG101347.X3");
 		
-	cout <<"\n\n\n\n\n\n\n\n\n\n\n\n\n"; //abre espaco na tela para melhor visualizacao 
-
 	do {
 	utilidades.menu();
-	op = utilidades.option("Qual opção desejada?");
+	cin >> op;
 
 	switch (op) {
 		case 1:
-			importAlarms();
+			for (unsigned i=0; i < tmp.size(); i++){
+				cout << tmp[i];
+			}
 			break;
 		case 2:
-			showAlarms();
+			listAllAlarms();
 			break;
 		case 3:
-			removeAlarm("ALARME"); 
+			cout << "Digite o nome do alarme a ser removido: " << endl;
+			cin >> target;
+			removeAlarm(target); 
 			break;
 		case 4:
-			editAlarm("ALARME");
+			cout << "Digite o nome do alarme que deseja editar: " << endl;
+			cin >> target;
+			//editAlarm(target);
 			break;
 		case 5:
-			addNewPlant();
+			cout << "Digite o nome do alarme que deseja visualizar: " << endl;
+			cin >> target;
+			detailAlarm(target);
 			break;
 		case 0:
-			getUpdateAlarms();
 			break;	
 		} // end switch
 	} while (op !=0);
 
-} //fim choosingOption 
+}; //fim choosingOption
 
-void MainFunctions::getUpdateAlarms (){
-	cout << "\ngetUpdateAlarms" << endl;
-}

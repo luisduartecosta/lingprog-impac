@@ -16,11 +16,11 @@ string Alarm::getAlarmFileName() {return fileName;};
 
 void Alarm::setAlarmStatus(string newStatus) {status = newStatus;};
 
-string Alarm::getAlarmStatus() {return alarm;};
+string Alarm::getAlarmStatus() {return status;};
 
-void Alarm::setAlarmPlant(string newName) {name = newName;};
+void Alarm::setAlarmPlant(string newPlant) {plant = newPlant;};
 
-string Alarm::getAlarmPlant() {return name;};
+string Alarm::getAlarmPlant() {return plant;};
 
 void Alarm::setAlarmType(string newType) {type = newType;};
 
@@ -36,7 +36,7 @@ void Alarm::addSensor(Sensor &newSensor) {
 
 void Alarm::deleteSensor(string sensorName) {
     for (unsigned i=0; i < this->vSensors.size(); i++) {
-        string tmpName = this->vSensors.at(i)->get.setSensorName();
+        string tmpName = this->vSensors.at(i)->getSensorName();
         if (!tmpName.compare(sensorName)) {
             vSensors.erase(vSensors.begin() + i);
             break;

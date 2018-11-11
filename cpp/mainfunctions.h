@@ -2,28 +2,26 @@
 #include <iomanip>
 #include <vector>
 #include "util.h"
-#include "perlToC++.h"
+#include "p2cpp.h"
+#include "alarm.h"
 
 using namespace std;
 
 class MainFunctions {
-
 	public:
-	MainFunctions();
-	~MainFunctions();
-	vector<string> importAlarms(); 
-	void showAlarms();
-	void removeAlarm(string);
-	void editAlarm(string);
-	void addNewPlant();	
-	void getUpdateAlarms(); // atualiza a variavel alarms qd necessario ou ao iniciar o programa
-	void choosingOption();
+		MainFunctions();
 
+		// void importAlarm(string); 
+		void listAllAlarms();
+		void removeAlarm(string);
+		void editAlarm(string, string);
+		void detailAlarm(string);
+		void choosingOption();
 
+		Alarm loadAlarm(string);
 
 	private:
-	Util utilidades;
-	PerlWrapper perlwrapper;	
-	vector <string> alarms; 
-	
+		Util utilidades;
+		P2CPP perlwrapper;	
+		vector <Alarm *> vAlarms; 
 };

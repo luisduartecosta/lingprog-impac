@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
+#include <vector>
 #include "sensor.h"
-#include "plant.h"
 
 using namespace std;
 
@@ -17,11 +17,11 @@ class Alarm {
         string getAlarmFileName();
         void setAlarmStatus(string);
         string getAlarmStatus();
-        void setAlarmPlant();
+        void setAlarmPlant(string);
         string getAlarmPlant();
-        void setAlarmType();
+        void setAlarmType(string);
         string getAlarmType();
-        void setAlarmProtocol();
+        void setAlarmProtocol(string);
         string getAlarmProtocol();
 
         void addSensor(Sensor &);

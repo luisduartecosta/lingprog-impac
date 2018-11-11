@@ -3,20 +3,17 @@ main so cria a classa mainfuctions e chama as opcoes. mainfunctions vai executar
 */
 
 #include <iostream>
-#include <iomanip>
 #include <string>
 #include "mainfunctions.h"
-#include "perlToC++.h"
-#include "util.h"
-using namespace std;
 
+using namespace std;
 
 int main () {
 
-PerlWrapper perlwrapper;
+P2CPP perlwrapper;
 MainFunctions functions;
 
-perlwrapper.runInterpreterPerlFile("main.pl");
+perlwrapper.runInterpreterPerlFile("../perl/main.pl");
 functions.choosingOption();
 
 return 0;

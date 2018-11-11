@@ -1,5 +1,7 @@
 #include "sensor.h"
 
+Sensor::Sensor() {};
+
 Sensor::Sensor(string newName, string newTime, string newStatus, string newLevel, string newObs)
     : name(newName), time(newTime), status(newStatus), level(newLevel), obs(newObs) {};
 
