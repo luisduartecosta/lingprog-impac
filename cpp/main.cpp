@@ -15,7 +15,11 @@
 #include "util.h"
 using namespace std;
 
+/*
 
+compilando: g++ -o  teste util.cpp mainfunctions.cpp perlToC.cpp main.cpp `perl -MextUtils::Embed -e ccopts -e ldopts`
+
+*/
 
 int main () {
 
