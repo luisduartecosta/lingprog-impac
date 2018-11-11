@@ -1,6 +1,7 @@
 #include <stddef.h>
 #include <string>
-#include "perlToC++.h" 
+#include <iostream>
+#include "perlToC.h" 
 
 // EXTERN_c void xs_init (pTHX);
 
@@ -16,7 +17,7 @@
 //     newXS("DynaLoader::boot_DynaLoader",boot_DynaLoader,file);
 // }
 
-PerlWrapper::PerlWrapper(string script="hello") {
+PerlWrapper::PerlWrapper(string script) {
     int dummy_argc = 0;
     char*** dummy_env = 0;
     char string[]={};
@@ -35,7 +36,7 @@ PerlWrapper::~PerlWrapper() {
 }
 
 void PerlWrapper::interpreterPerl (){
-    char _MYARGV_PERL_MODULE_NAME[] = "main.pl";
+    char _MYARGV_PERL_MODULE_NAME[] = "../perl/main.pl";
     char _MYARGV_NOTHING_NAME[]=""; // nao por nada aqui
     char *my_argv[]={static_cast<char*>(_MYARGV_NOTHING_NAME), static_cast<char*>(_MYARGV_PERL_MODULE_NAME)};
 
@@ -48,14 +49,15 @@ int PerlWrapper::checkPlant (string nomePlanta, string nomeArq,string perlFunc){
     ENTER;
     SAVETMPS;
     PUSHMARK(SP);
-    XPUSHs(sv_2mortal (newSVpv(nomePlanta.c_str(),nomePlanta.length());
-    XPUSHs(sv_2mortal (newSVpv(nomeArq.c_str(),nomeArq.length())));
+
+    XPUSHs(sv_2mortal(newSVpv(nomePlanta.c_str(),nomePlanta.length())));
+    XPUSHs(sv_2mortal(newSVpv(nomeArq.c_str(),nomeArq.length())));
     
     PUTBACK;
     call_pv (perlFunc.c_str(), G_SCALAR);
     SPAGAIN;
 
-    int resultado= POPi; //POPp para retornar string
+    int resultado = POPi; //POPp para retornar string
     PUTBACK;
     FREETMPS; //libera o valor de retorno
     LEAVE;

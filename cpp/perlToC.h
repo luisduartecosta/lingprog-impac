@@ -4,6 +4,8 @@
 #include <string>
 using namespace std;
 
+#ifndef     PERLTOC_H
+#define     PERLTOC_H
 class PerlWrapper {
     public:
     PerlWrapper(string);
@@ -15,3 +17,5 @@ class PerlWrapper {
     PerlInterpreter *my_perl;
     char *my_argv [2];
 };
+
+#endif

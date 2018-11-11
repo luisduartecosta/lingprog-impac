@@ -1,25 +1,32 @@
-/*
-main so cria a classa mainfuctions e chama as opcoes. mainfunctions vai executar as funcoes necessarias no programa
+/* como executar o codigo 
+ 
+    NA PASTA CPP
+    g++ teste -o util.cpp mainfunctions.cpp perlToC++.cpp main.cpp `perl -MExtUtils::Embed -e ccopts -e ldopts  `
+
+    `` nao eh ''
+
 */
 
 #include <iostream>
 //#include <iomanip>
 #include <string>
 #include "mainfunctions.h"
-#include "perlToC++.h"
+#include "perlToC.h"
 #include "util.h"
 using namespace std;
 
 
+
 int main () {
 
-PerlWrapper perlwrapper;
+PerlWrapper perlwrapper("oi");
 perlwrapper.interpreterPerl();
 
-cout << "\nValor é:" << perlwrapper.checkPlant("checkPlant","ANHANG101347.X3","ANHANG101347.X3");
+cout << "\nValor é:" << perlwrapper.checkPlant("ANHANG101347.X3","ANHANG101347.X3","checkPlant");
 
 MainFunctions functions;
 //functions.choosingOption();  SO PRA TESTAR O PERL ANTE DE FZR AS FUNCOES
 
 return 0;
 }
+
