@@ -39,7 +39,7 @@ our $VERSION = '0.01';
 sub getLines {
     my @array;
     
-    open (my $in, "<", $_[0]) or die "Error: Can't open file: $!";
+    open (my $in, "<", "../$_[0]") or die "Error: Can't open file: $!";
     @array = <$in>;
     close $in or die "Can't close file: $!";
 
@@ -50,7 +50,7 @@ sub getLines {
 # Busca facilitar a coleta de dados dos sensores.
 # Uso : @array = removeEmptyLines (@array_original)
 sub removeEmptyLines {
-    my @arrayFull = @_;
+    my @arrayFull = getlines($_[0]);
     my @arrayClean;
 
     foreach my $line (0 .. $#arrayFull) {
@@ -66,32 +66,40 @@ sub removeEmptyLines {
 # Recebe um array como argumento e retorna um hash, onde as chaves são os parametros desejados.
 # Uso : %hash = getHeaderDdata (@array).
 sub getHeaderData {
-    my @array = removeEmptyLines(@_);
-    my %hash;
+    my @array = removeEmptyLines(getlines($_[0]));
+    # my %hash;
+    my @retArray;
 
     if ($array[0] =~ /(\S+)\s(\S+\s[A,P]M)\s/) {
-        $hash{'date'} = $1;
-        $hash{'time'} = $2;
+        # $hash{'date'} = $1;
+        # $hash{'time'} = $2;
+        $retArray[0] = $1;
+        $retArray[1] = $2;
     }
 
     if ($array[0] =~ /from\s(\S+)\sat\s(\S+)\s/) {
-        $hash{'type'} = $1;
-        $hash{'plantName'} = $2;
+        # $hash{'type'} = $1;
+        # $hash{'plantName'} = $2;
+        $retArray[2] = $1;
+        $retArray[3] = $2;
     }
 
     if ($array[$#array] =~ /=\s(\S+\.X[3,4])\s/) {
-        $hash{'fileName'} = $1;
+        # $hash{'fileName'} = $1;
+        $retArray[4] = $1;
     }
 
     if ($array[$#array] =~ /Protocol=(\S+),/) {
-        $hash{'protocol'} = $1;
+        # $hash{'protocol'} = $1;
+        $retArray[5] = $1;
     }
 
     if ($array[$#array] =~ /\sTotal\sAlarms\s=\s(\S+)/) {
-        $hash{'totalAlarms'} = $1;
+        # $hash{'totalAlarms'} = $1;
+        $retArray[6] = $1;
     }
     
-    return %hash;
+    return @retArray;
 }
 
 # Sub rotina para verificar se o nome da planta de origem é o mesmo do emissor do alarme.
@@ -113,7 +121,7 @@ sub checkPlant {
 # Retorna o número de caracteres com erro.
 # Uso : $qtd_erros = verifyIntegrity (@array)
 sub verifyIntegrity {
-    my @array = @_;
+    my @array = getlines($_[0]);
     my $errors = 0;
 
     foreach my $line (0 .. $#array) {
@@ -129,7 +137,7 @@ sub verifyIntegrity {
 # Recebe um array e retorna um array de hashes.
 # Uso : @array_hashes = getSensorsData (@array)
 sub getSensorsData {
-    my @array = removeEmptyLines(@_);
+    my @array = removeEmptyLines(getlines($_[0]));
     my %hash;
     my @arrayOfHash;
 
@@ -153,29 +161,12 @@ sub getSensorsData {
 sub moveFile {
     my @lines = getLines($_[0]);
 
-    open (my $in, '>',  "./Archive/$_[0]") or die "Error: Can't create file: $!";
+    open (my $in, '>',  "../archive/$_[0]") or die "Error: Can't create file: $!";
     print $in @lines;
     close $in or die "Can't close file: $!";
     unlink $_[0];
 }
 
-CPP=g++
-CPPFLAGS=$(shell perl -MExtUtils::Embed -e ccopts)
-LD=g++
-LDFLAGS=$(shell perl -MExtUtils::Embed -e ldopts)
-
-all: programa
-
-.cpp.o:
-    $(CPP) $(CPPFLAGS) -o $@ -c $<
-
-programa: main.o perlWrapper.o
-    $(LD) -o $@ $? $(LDFLAGS)
-
-clean:
-    rm -f programa *.o 
-
-1;
 __END__
 # Below is stub documentation for your module. You'd better edit it!
 
