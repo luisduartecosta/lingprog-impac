@@ -16,12 +16,12 @@ class MainFunctions {
 		void removeAlarm(string);
 		void editAlarm(string, string);
 		void detailAlarm(string);
-		void choosingOption();
+		void choosingOption(string);
 
 		Alarm loadAlarm(string);
 
 	private:
 		Util utilidades;
-		P2CPP perlwrapper;	
+		//P2CPP perlwrapper;	
 		vector <Alarm *> vAlarms; 
 };

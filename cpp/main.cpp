@@ -10,11 +10,29 @@ using namespace std;
 
 int main () {
 
+string arquivo= "../ANHANG101347.X3";
+char *perlFile = (char  *)"../perl/main.pl";
+//vector<string> dados;
+string dados;
+
 P2CPP perlwrapper;
 MainFunctions functions;
 
-perlwrapper.runInterpreterPerlFile("../perl/main.pl");
-functions.choosingOption();
+cout <<  "\nRODANDO" << endl;
+
+perlwrapper.runInterpreterPerlFile(perlFile);
+cout <<  "\n1" << endl;
+
+dados = perlwrapper.perlGetHeaderData(arquivo);
+
+cout <<"diz q ta chegando dados" << endl;
+cout << "\n-------- "<< dados <<  "--------\n\n";
+//so pra ver oretorno de perlGetHeaderData
+// for (unsigned i=0; i < dados.size(); i++){
+//     cout << dados[i] << endl;
+// }
+
+functions.choosingOption(dados);
 
 return 0;
 }

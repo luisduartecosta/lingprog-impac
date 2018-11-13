@@ -1,24 +1,8 @@
 #include "mainfunctions.h"
-
+#include "p2cpp.h"
 MainFunctions::MainFunctions () {}
 
-//Esta função recebe o nome do arquivo e passa para o perl
-// Alarm MainFunctions::importAlarm(string fileName) {
-// 	Alarm tmp;
-	
-// 	if (!perlverifyIntegrity(fileName)) {
-// 		perlGetHeaderData(fileName);
-
-// 	}
-	
-
-// 	//Passa o nome do arquivo para o perl
-// 		//abre arquivo perl, retorna dados
-
-
-// 	vAlarms.push_back(tmp);
-// };
-
+//caso 2
 void MainFunctions::listAllAlarms () {
 	cout << "Alarme \t Data \t Hora \t Status\n\n" << endl;
 	for (unsigned i=0; i < vAlarms.size(); i++) {
@@ -27,8 +11,9 @@ void MainFunctions::listAllAlarms () {
 				<< vAlarms.at(i)->getAlarmTime() << "\t"
 				<< vAlarms.at(i)->getAlarmStatus() << endl;
 	}
-};
+} //fim listAllAlarms
 
+//caso 3
 void MainFunctions::removeAlarm (string target) {
 	for (unsigned i=0; i < this->vAlarms.size(); i++) {
         string tmp = this->vAlarms.at(i)->getAlarmFileName();
@@ -38,35 +23,42 @@ void MainFunctions::removeAlarm (string target) {
         }
     }
 	cout << "Alarme removido." << endl;
-};
+} //fim removeAlarm
 
-void MainFunctions::editAlarm (string target, string status) {
-	for (unsigned i=0; i< this->vAlarms.size(); i++) {
-		string tmp = this->vAlarms.at(i)->getAlarmFileName();
-		if (!tmp.compare(target)) {
-			vAlarms.at(i)->setAlarmStatus(status);
-		}
-	}
+void MainFunctions::editAlarm (string target, string tatus) {
+	// for (unsigned i=0; i< this->vAlarms.size(); i++) {
+	// 	string tmp = this->vAlarms.at(i)->getAlarmFileName();
+	// 	if (!tmp.compare(target)) {
+	// 		vAlarms.at(i)->setAlarmStatus(status);
+	// 	}
+	// }
 	cout << "Status do alarme alterado." << endl;
-};
+} //fimm editAlarm
 
+//caso 5
 void MainFunctions::detailAlarm(string target) {
-	for (unsigned i=0; i < vAlarms.size(); i++) {
-		string tmp = this->vAlarms.at(i)->getAlarmFileName();
-		if (!tmp.compare(target)) {
-			vAlarms.at(i)->showAlarm();
-		}
-	}
-};
+	// for (unsigned i=0; i < vAlarms.size(); i++) {
+	// 	string tmp = this->vAlarms.at(i)->getAlarmFileName();
+	// 	if (!tmp.compare(target)) {
+	// 		vAlarms.at(i)->showAlarm();
+	// 	}
+	// }
+	cout << "DETAILALARM" << endl;
+} //fim detailAlarm
 
-void MainFunctions::choosingOption (){
+
+void MainFunctions::choosingOption (string dado){
 	int op=1;
-	string target;
-	vector<string> tmp = perlGetHeaderData("../ANHANG101347.X3");
+	string target;  // ja nem lembro mais pra q serve
+	string tmp;
+
+	tmp = dado;
+	
+	//tmp =perlwrapper.perlGetHeaderData("../ANHANG101347.X3");
 		
 	do {
 	utilidades.menu();
-	cin >> op;
+	op = utilidades.option("Qual opção desejada?");
 
 	switch (op) {
 		case 1:

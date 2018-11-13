@@ -98,6 +98,9 @@ sub getHeaderData {
         # $hash{'totalAlarms'} = $1;
         $retArray[6] = $1;
     }
+
+    #print do array a ser passado para c++
+    print "\nValor de retArray: ", @retArray;
     
     return @retArray;
 }

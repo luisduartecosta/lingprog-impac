@@ -9,24 +9,27 @@ P2CPP::P2CPP() {
 };
 
 P2CPP::~P2CPP() {
+    cout << "ENTROU NO DESTRUTOR DE P2CPP" << endl;
     perl_destruct (my_perl);
     perl_free (my_perl);
     PERL_SYS_TERM();
 };
 
 void P2CPP::runInterpreterPerlFile (char *file){
-    my_argv[0]= "";
+    my_argv[0]=(char*)"";  //typecast pra parrar de dar warning mas nao sei se ta certo
     my_argv[1]= file;
     perl_parse(my_perl,0,2,my_argv,(char **)NULL );
     perl_run(my_perl);
 };
 
- vector<string> P2CPP::perlGetHeaderData(string fileName) {
-    vector <string> tmp;
+ string P2CPP::perlGetHeaderData(string fileName) {
+    //vector <string> tmp;
+    string tmp;
     dSP;
     int count;
     ENTER;
     SAVETMPS;
+
     PUSHMARK(SP);
     EXTEND(SP,2);
     PUSHs(sv_2mortal(newSVpv(fileName.c_str(), fileName.length())));
@@ -34,9 +37,12 @@ void P2CPP::runInterpreterPerlFile (char *file){
 
     count = call_pv("getHeaderData", G_SCALAR);
     SPAGAIN;
-    for (unsigned i=0; i < 7; i++) {
-       tmp.push_back(POPp);
-    }
+
+    cout <<  "\n\nANTES DAONDE TAVA DANDO MERDA\n\n" << endl;
+    // for (unsigned i=0; i < 3; i++) {
+    //    tmp.push_back(POPp);
+    // }
+    tmp = POPp;
     PUTBACK;
     FREETMPS;
     LEAVE;
