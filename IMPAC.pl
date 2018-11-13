@@ -13,6 +13,7 @@ sub getLines {
     @array = <$in>;
     close $in or die "Can't close file: $!";
 
+    print "getLines ->";
     return @array;
 }
 
@@ -29,6 +30,7 @@ sub removeEmptyLines {
         }
     }
 
+    print "removeEmptyLines ->";
     return @arrayClean;
 }
 
@@ -61,6 +63,7 @@ sub getHeaderData {
         $header[6] = $1;
     }
     
+    print "getHeaderData ->"; 
     return @header;
 }
 
@@ -71,6 +74,7 @@ sub getHeaderData {
 # 1 : São iguais
 # 0 : São Diferentes
 sub checkPlant {    
+    print "checkPlant ->";
     if ($_[1] =~ /^($_[0])/) {
         return 1;
     }
@@ -84,7 +88,7 @@ sub checkPlant {
 # Retorna o número de caracteres com erro.
 # Uso : $qtd_erros = verifyIntegrity (@array)
 sub verifyIntegrity {
-    my @array = getlines($_[0]);
+    my @array = getLines($_[0]);
     my $errors = 0;
 
     foreach my $line (0 .. $#array) {
@@ -92,6 +96,7 @@ sub verifyIntegrity {
             ++$errors;
         }
     }
+    print "verifyIntegrity ->";
     return $errors;
 }
 
@@ -119,7 +124,7 @@ sub getSensorsData {
         }
         push @arrayOfSensors, @sensor;
     }
-
+    print "getSensorData ->";
     return @arrayOfSensors;
 }
 
@@ -133,4 +138,5 @@ sub moveFile {
     print $in @lines;
     close $in or die "Can't close file: $!";
     unlink $_[0];
+    print "moveFile";
 }

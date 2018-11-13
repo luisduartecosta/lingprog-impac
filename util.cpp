@@ -24,7 +24,7 @@ return opt;
 // EXIBE MENU
 void Util::menu(){
 
-cout << "------------- MENU -------------" <<endl;
+cout << "\n------------- MENU -------------\n" <<endl;
 cout << "1 - iMPORTAR ALARME"<< endl;
 cout << "2 - LISTAR TODOS OS ALARMES" << endl;
 cout << "3 - REMOVER ALARME" << endl;

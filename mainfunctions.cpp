@@ -6,11 +6,11 @@ int MainFunctions::importAlarm(string file) {
 	vector <string> header;
 	vector <string> sensorData;
 	Alarm tmpAlarm;
-	Sensor tmpSensor;
+	Sensor *tmpSensor;
 	int errors = 0;
 
 	//Interpretador apondo para o arquivo perl
-	perlwrapper.runInterpreterPerlFile("IMPAC.pl");
+	perlwrapper.runInterpreterPerlFile((char*)"IMPAC.pl");
 
 	//Valida o arquivo
 	errors = perlwrapper.perlVerifyIntegrity(file);
@@ -21,6 +21,11 @@ int MainFunctions::importAlarm(string file) {
 
 	//Executa a função getHeaderData do Perl e passa os valores para o vector header
 	perlwrapper.perlGetArray(file, "getHeaderData", header);
+	
+	//qro ver conteudo passado para header  --- EXCLUIR DEPOIS 
+	cout << "\nVETOR header\n";
+	for (unsigned i=1;i<7;i++)
+		cout << header.at(i) << endl;
 	
 	//Atribui os valores para a varivavel alarm
 	tmpAlarm.setAlarmProtocol(header[1]);
@@ -41,14 +46,14 @@ int MainFunctions::importAlarm(string file) {
 
 	for (unsigned i=0; i < sensorData.size(); i+=5) {
 		tmpSensor = new Sensor(sensorData[i+3], sensorData[i+4], sensorData[i+2], sensorData[i+1], sensorData[i]);
-	 	tmpAlarm.addSensor(tmpSensor);
+	 	tmpAlarm.addSensor(*tmpSensor);
 	}
 
 	//Alarme importado com sucesso
 	//Altera o status para importado
 	tmpAlarm.setAlarmStatus("Importado");
 
-	vAlarms.push_back(tmpAlarm);
+	vAlarms.push_back(&tmpAlarm);
 
 	//Move o arquivo para a pasta archive
 	perlwrapper.perlMoveFile(file);
@@ -121,7 +126,7 @@ void MainFunctions::choosingOption (){
 		case 4:
 			cout << "Digite o nome do alarme que deseja editar: " << endl;
 			cin >> target;
-			cout >> "Digite o status que deseja colocar: ";
+			cout << "Digite o status que deseja colocar: ";
 			cin >> target2;
 			editAlarm(target, target2);
 			break;
