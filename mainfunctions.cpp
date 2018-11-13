@@ -2,7 +2,7 @@
 
 MainFunctions::MainFunctions () {}
 
-int MainFunctions::importAlarm(string file) {
+string MainFunctions::importAlarm(string file) {
 	vector <string> header;
 	vector <string> sensorData;
 	Alarm tmpAlarm;
@@ -14,18 +14,19 @@ int MainFunctions::importAlarm(string file) {
 
 	//Valida o arquivo
 	errors = perlwrapper.perlVerifyIntegrity(file);
+	
 	if (errors > 0) {
 		//Arquivo corrompido
-		return 1;
+		return "ARQUIVO CORROMPIDO";
 	}
 
 	//Executa a função getHeaderData do Perl e passa os valores para o vector header
 	perlwrapper.perlGetArray(file, "getHeaderData", header);
 	
 	//qro ver conteudo passado para header  --- EXCLUIR DEPOIS 
-	cout << "\nVETOR header\n";
-	for (unsigned i=1;i<7;i++)
-		cout << header.at(i) << endl;
+	// cout << "\n\nVETOR header\n\n";
+	// for (unsigned i=1;i<7;i++)
+	// 	cout << header.at(i) << endl; 
 	
 	//Atribui os valores para a varivavel alarm
 	tmpAlarm.setAlarmProtocol(header[1]);
@@ -35,11 +36,22 @@ int MainFunctions::importAlarm(string file) {
 	tmpAlarm.setAlarmTime(header[5]);
 	tmpAlarm.setAlarmDate(header[6]);
 
+	// HEADER[3] tem q estar contido em HEADER[2]
+	cout << "Alarme\n--"<< tmpAlarm.getAlarmFileName() 
+		<< "--"<< tmpAlarm.getAlarmPlant() << "--" << endl;
+
 	//Valida a origem e destino
-	if (!perlwrapper.perlCheckPlant(tmpAlarm.getAlarmPlant(), tmpAlarm.getAlarmFileName())) {
-		//Origem inválida
-		return 2;
-	} 
+	int teste;
+
+	cout << "\n\nAntes de CHECK PLANT\n\n";
+	teste = perlwrapper.perlCheckPlant(tmpAlarm.getAlarmPlant(),tmpAlarm.getAlarmFileName());
+	cout << "IMPORTANTE " << teste;
+	if (!teste) {
+		//Origem inválida 
+		return "ORIGEM INVALIDA";
+	}
+	
+
 
 	//Importa os dados de sensores
 	perlwrapper.perlGetArray(file, "getSensorsData", sensorData);
@@ -48,6 +60,12 @@ int MainFunctions::importAlarm(string file) {
 		tmpSensor = new Sensor(sensorData[i+3], sensorData[i+4], sensorData[i+2], sensorData[i+1], sensorData[i]);
 	 	tmpAlarm.addSensor(*tmpSensor);
 	}
+	
+	//PARA VISUALIZACAO
+	cout << "\nVETOR header\n";
+	for (unsigned i=1;i<sensorData.size();i++)
+		cout << sensorData.at(i) << endl;
+
 
 	//Alarme importado com sucesso
 	//Altera o status para importado
@@ -55,10 +73,12 @@ int MainFunctions::importAlarm(string file) {
 
 	vAlarms.push_back(&tmpAlarm);
 
+
+	cout << "\nverifica se entra em perlMoveFile" << endl;
 	//Move o arquivo para a pasta archive
 	perlwrapper.perlMoveFile(file);
 
-	return 0;
+	return "OK";
 };
 
 void MainFunctions::listAllAlarms () {
@@ -113,7 +133,7 @@ void MainFunctions::choosingOption (){
 		case 1:
 			cout << "Digite o nome do alame a ser importado: ";
 			cin >> target;
-			importAlarm(target);
+			cout << "\nRESULTADO DE importAlarm: " << importAlarm(target) << endl;
 			break;
 		case 2:
 			listAllAlarms();

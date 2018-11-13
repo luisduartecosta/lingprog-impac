@@ -15,17 +15,20 @@ P2CPP::~P2CPP() {
 };
 
 void P2CPP::runInterpreterPerlFile (char *file) {
-    my_argv[0]= "";
+    my_argv[0]= (char*)"";
     my_argv[1]= file;
     perl_parse(my_perl,0,2,my_argv,(char **)NULL );
     perl_run(my_perl);
 };
 
 int P2CPP::perlCheckPlant(string plant, string fileName) {
+    cout << "ENTROU EM CHECKPLANT" << endl;
+
     dSP;
     ENTER;
     SAVETMPS;
     PUSHMARK(SP);
+
     EXTEND(SP,2);
     XPUSHs(sv_2mortal(newSVpv(plant.c_str(), plant.length())));
     XPUSHs(sv_2mortal(newSVpv(fileName.c_str(), fileName.length())));
@@ -38,6 +41,8 @@ int P2CPP::perlCheckPlant(string plant, string fileName) {
     PUTBACK;
     FREETMPS;
     LEAVE;
+
+    cout << "\nSAINDO DE CHECKPLANT ";
     return POPi;
 };
 
@@ -46,6 +51,9 @@ int P2CPP::perlVerifyIntegrity(string file) {
     ENTER;
     SAVETMPS;
     PUSHMARK(SP);
+
+    int integridade;
+
     EXTEND(SP,2);
     XPUSHs(sv_2mortal(newSVpv(file.c_str(), file.length())));
     PUTBACK;
@@ -54,10 +62,11 @@ int P2CPP::perlVerifyIntegrity(string file) {
 
     SPAGAIN;
 
+    integridade = POPi;
     PUTBACK;
     FREETMPS;
     LEAVE;
-    return POPi;
+    return integridade;
 };
 
 void P2CPP::perlMoveFile(string file) {

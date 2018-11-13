@@ -11,7 +11,7 @@ class MainFunctions {
 	public:
 		MainFunctions();
 
-		int importAlarm(string); 
+		string importAlarm(string); 
 		void listAllAlarms();
 		void removeAlarm(string);
 		void editAlarm(string, string);

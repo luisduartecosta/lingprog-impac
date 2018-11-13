@@ -13,7 +13,7 @@ sub getLines {
     @array = <$in>;
     close $in or die "Can't close file: $!";
 
-    print "getLines ->";
+    #print "getLines ->";
     return @array;
 }
 
@@ -30,7 +30,7 @@ sub removeEmptyLines {
         }
     }
 
-    print "removeEmptyLines ->";
+    #print "removeEmptyLines ->";
     return @arrayClean;
 }
 
@@ -63,7 +63,7 @@ sub getHeaderData {
         $header[6] = $1;
     }
     
-    print "getHeaderData ->"; 
+    #print "getHeaderData ->"; 
     return @header;
 }
 
@@ -73,12 +73,16 @@ sub getHeaderData {
 # Uso : checkPlant ($planta, $nome_arquivo)
 # 1 : São iguais
 # 0 : São Diferentes
-sub checkPlant {    
-    print "checkPlant ->";
-    if ($_[1] =~ /^($_[0])/) {
+sub checkPlant {
+    #print "--",$_[1],"--",$_[0],"--  -> correto eh achar ";   
+
+    if ($_[1] =~ /^($_[0])/) 
+    {
+        print $_[1];
         return 1;
     }
     else {
+        print $_[0];
         return 0;
     }
 }
@@ -94,9 +98,10 @@ sub verifyIntegrity {
     foreach my $line (0 .. $#array) {
         if ($array[$line] =~ /[!@\$%¨&\*\?\^~]/) {
             ++$errors;
+            print "\nqtd de erros", $errors;
         }
     }
-    print "verifyIntegrity ->";
+    #print "verifyIntegrity ->";
     return $errors;
 }
 
@@ -124,7 +129,7 @@ sub getSensorsData {
         }
         push @arrayOfSensors, @sensor;
     }
-    print "getSensorData ->";
+    #print "getSensorData ->";
     return @arrayOfSensors;
 }
 
