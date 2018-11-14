@@ -30,13 +30,13 @@ void Alarm::setAlarmProtocol(string newProtocol) {protocol = newProtocol;};
 
 string Alarm::getAlarmProtocol() {return protocol;};
 
-void Alarm::addSensor(Sensor &newSensor) {
-    vSensors.push_back(&newSensor);
+void Alarm::addSensor(Sensor newSensor) {
+    vSensors.push_back(newSensor);
 };
 
 void Alarm::deleteSensor(string sensorName) {
-    for (unsigned i=0; i < this->vSensors.size(); i++) {
-        string tmpName = this->vSensors.at(i)->getSensorName();
+    for (unsigned i=0; i < vSensors.size(); i++) {
+        string tmpName = vSensors.at(i).getSensorName();
         if (!tmpName.compare(sensorName)) {
             vSensors.erase(vSensors.begin() + i);
             break;
@@ -47,7 +47,7 @@ void Alarm::deleteSensor(string sensorName) {
 void Alarm::showAlarm() {
     cout << getAlarmDate() << " " << getAlarmTime() << " from " << getAlarmType() << "at " << getAlarmPlant() << " : \n\n" << endl;
     for (unsigned i=0; i < vSensors.size(); i++) {
-        vSensors.at(i)->showData();
+        vSensors.at(i).showData();
     }
     cout << "\n\n-----------------------------------------------" << endl;
     cout << "File: " << getAlarmFileName() << " , Protocol: " << getAlarmProtocol() << "Total Sensors: " << vSensors.size() << endl;

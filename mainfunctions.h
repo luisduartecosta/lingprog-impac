@@ -21,5 +21,5 @@ class MainFunctions {
 	private:
 		Util utilidades;
 		P2CPP perlwrapper;	
-		vector <Alarm *> vAlarms;
+		vector <Alarm > vAlarms;
 };

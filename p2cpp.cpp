@@ -21,31 +21,6 @@ void P2CPP::runInterpreterPerlFile (char *file) {
     perl_run(my_perl);
 };
 
-int P2CPP::perlCheckPlant(string plant, string fileName) {
-    cout << "ENTROU EM CHECKPLANT" << endl;
-
-    dSP;
-    ENTER;
-    SAVETMPS;
-    PUSHMARK(SP);
-
-    EXTEND(SP,2);
-    XPUSHs(sv_2mortal(newSVpv(plant.c_str(), plant.length())));
-    XPUSHs(sv_2mortal(newSVpv(fileName.c_str(), fileName.length())));
-    PUTBACK;
-    
-    call_pv("checkPlant", G_SCALAR);
-
-    SPAGAIN;
-
-    PUTBACK;
-    FREETMPS;
-    LEAVE;
-
-    cout << "\nSAINDO DE CHECKPLANT ";
-    return POPi;
-};
-
 int P2CPP::perlVerifyIntegrity(string file) {
     dSP;
     ENTER;
@@ -101,7 +76,7 @@ void P2CPP::perlGetArray(string file, string function, vector<string> &vec) {
 
     SPAGAIN;
    
-    for (unsigned i=0; i <= count; i++) {
+    for (unsigned i=0; i < count; i++) {
         vec.push_back(POPp);
     }
 

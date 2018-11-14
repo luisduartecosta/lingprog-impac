@@ -133,6 +133,9 @@ sub getSensorsData {
     return @arrayOfSensors;
 }
 
+my @array = getSensorsData ("CAMPANA2105505.X3");
+print $array[5];
+
 # Sub rotina para mover um arquivo já lido para uma pasta de archive.
 # Visa impedir que um arquivo seja lido mais de uma vez.
 # Uso : moveFile($nome_arquivo)

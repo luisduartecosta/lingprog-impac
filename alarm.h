@@ -24,12 +24,12 @@ class Alarm {
         void setAlarmProtocol(string);
         string getAlarmProtocol();
 
-        void addSensor(Sensor &);
+        void addSensor(Sensor);
         void deleteSensor(string);
         void showAlarm();
         
     private:
-        vector <Sensor *> vSensors;
+        vector <Sensor> vSensors;
         string date;
         string time;
         string fileName;

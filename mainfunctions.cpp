@@ -6,7 +6,7 @@ string MainFunctions::importAlarm(string file) {
 	vector <string> header;
 	vector <string> sensorData;
 	Alarm tmpAlarm;
-	Sensor *tmpSensor;
+	Sensor tmpSensor;
 	int errors = 0;
 
 	//Interpretador apondo para o arquivo perl
@@ -36,45 +36,30 @@ string MainFunctions::importAlarm(string file) {
 	tmpAlarm.setAlarmTime(header[5]);
 	tmpAlarm.setAlarmDate(header[6]);
 
-	// HEADER[3] tem q estar contido em HEADER[2]
-	cout << "Alarme\n--"<< tmpAlarm.getAlarmFileName() 
-		<< "--"<< tmpAlarm.getAlarmPlant() << "--" << endl;
 
 	//Valida a origem e destino
-	int teste;
 
-	cout << "\n\nAntes de CHECK PLANT\n\n";
-	teste = perlwrapper.perlCheckPlant(tmpAlarm.getAlarmPlant(),tmpAlarm.getAlarmFileName());
-	cout << "IMPORTANTE " << teste;
-	if (!teste) {
+	if (tmpAlarm.getAlarmFileName().find(tmpAlarm.getAlarmPlant())) {
 		//Origem inválida 
 		return "ORIGEM INVALIDA";
 	}
-	
-
 
 	//Importa os dados de sensores
 	perlwrapper.perlGetArray(file, "getSensorsData", sensorData);
 
+
 	for (unsigned i=0; i < sensorData.size(); i+=5) {
-		tmpSensor = new Sensor(sensorData[i+3], sensorData[i+4], sensorData[i+2], sensorData[i+1], sensorData[i]);
-	 	tmpAlarm.addSensor(*tmpSensor);
+		tmpSensor = Sensor(sensorData[i+3], sensorData[i+4], sensorData[i+2], sensorData[i+1], sensorData[i]);
+	 	tmpAlarm.addSensor(tmpSensor);
+
 	}
 	
-	//PARA VISUALIZACAO
-	cout << "\nVETOR header\n";
-	for (unsigned i=1;i<sensorData.size();i++)
-		cout << sensorData.at(i) << endl;
-
-
 	//Alarme importado com sucesso
 	//Altera o status para importado
 	tmpAlarm.setAlarmStatus("Importado");
 
-	vAlarms.push_back(&tmpAlarm);
+	vAlarms.push_back(tmpAlarm);
 
-
-	cout << "\nverifica se entra em perlMoveFile" << endl;
 	//Move o arquivo para a pasta archive
 	perlwrapper.perlMoveFile(file);
 
@@ -84,16 +69,16 @@ string MainFunctions::importAlarm(string file) {
 void MainFunctions::listAllAlarms () {
 	cout << "Alarme \t Data \t Hora \t Status\n\n" << endl;
 	for (unsigned i=0; i < vAlarms.size(); i++) {
-		cout 	<< vAlarms.at(i)->getAlarmFileName() << "\t"
-				<< vAlarms.at(i)->getAlarmDate() << "\t"
-				<< vAlarms.at(i)->getAlarmTime() << "\t"
-				<< vAlarms.at(i)->getAlarmStatus() << endl;
+		cout 	<< vAlarms.at(i).getAlarmFileName() << "\t"
+				<< vAlarms.at(i).getAlarmDate() << "\t"
+				<< vAlarms.at(i).getAlarmTime() << "\t"
+				<< vAlarms.at(i).getAlarmStatus() << endl;
 	}
 };
 
 void MainFunctions::removeAlarm (string target) {
-	for (unsigned i=0; i < this->vAlarms.size(); i++) {
-        string tmp = this->vAlarms.at(i)->getAlarmFileName();
+	for (unsigned i=0; i < vAlarms.size(); i++) {
+        string tmp = vAlarms.at(i).getAlarmFileName();
         if (!tmp.compare(target)) {
             vAlarms.erase(vAlarms.begin() + i);
             break;
@@ -103,10 +88,10 @@ void MainFunctions::removeAlarm (string target) {
 };
 
 void MainFunctions::editAlarm (string target, string status) {
-	for (unsigned i=0; i< this->vAlarms.size(); i++) {
-		string tmp = this->vAlarms.at(i)->getAlarmFileName();
+	for (unsigned i=0; i< vAlarms.size(); i++) {
+		string tmp = vAlarms.at(i).getAlarmFileName();
 		if (!tmp.compare(target)) {
-			vAlarms.at(i)->setAlarmStatus(status);
+			vAlarms.at(i).setAlarmStatus(status);
 		}
 	}
 	cout << "Status do alarme alterado." << endl;
@@ -114,9 +99,9 @@ void MainFunctions::editAlarm (string target, string status) {
 
 void MainFunctions::detailAlarm(string target) {
 	for (unsigned i=0; i < vAlarms.size(); i++) {
-		string tmp = this->vAlarms.at(i)->getAlarmFileName();
+		string tmp = vAlarms.at(i).getAlarmFileName();
 		if (!tmp.compare(target)) {
-			vAlarms.at(i)->showAlarm();
+			vAlarms.at(i).showAlarm();
 		}
 	}
 };
