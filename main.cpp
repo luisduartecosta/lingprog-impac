@@ -1,5 +1,10 @@
-/*
-main so cria a classa mainfuctions e chama as opcoes. mainfunctions vai executar as funcoes necessarias no programa
+/* como executar o codigo 
+ 
+    NA PASTA CPP
+    g++ teste -o util.cpp mainfunctions.cpp perlToC++.cpp main.cpp `perl -MExtUtils::Embed -e ccopts -e ldopts  `
+
+    `` nao eh ''
+
 */
 
 #include <iostream>
@@ -16,3 +21,4 @@ int main () {
 
     return 0;
 }
+
