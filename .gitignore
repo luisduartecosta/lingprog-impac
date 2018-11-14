@@ -1,4 +1,4 @@
-alarms/*
-archive/*
+alarms/
+archive/
 *.o
 programa

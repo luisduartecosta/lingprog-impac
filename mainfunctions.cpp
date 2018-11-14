@@ -114,7 +114,7 @@ void MainFunctions::choosingOption (){
 	int op=1;
 	int selector;
 	string target, target2;
-	vector <string> files = listDir("./alarms/");
+	vector <string> files;
 		
 	do {
 	utilidades.menu();
@@ -122,6 +122,7 @@ void MainFunctions::choosingOption (){
 
 	switch (op) {
 		case 1:
+			files = listDir("./alarms/");
 			cout << "-----Diretório de alarmes-----" << endl;
 			for (unsigned i=0; i < files.size()-2; i++) {
 				cout << i+1 << " - " << files.at(i) << endl;
