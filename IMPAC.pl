@@ -74,7 +74,6 @@ sub getHeaderData {
 # 1 : São iguais
 # 0 : São Diferentes
 sub checkPlant {
-    #print "--",$_[1],"--",$_[0],"--  -> correto eh achar ";   
 
     if ($_[1] =~ /^($_[0])/) 
     {
@@ -98,7 +97,7 @@ sub verifyIntegrity {
     foreach my $line (0 .. $#array) {
         if ($array[$line] =~ /[!@\$%¨&\*\?\^~]/) {
             ++$errors;
-            print "\nqtd de erros", $errors;
+            #print "\nqtd de erros", $errors;
         }
     }
     #print "verifyIntegrity ->";
@@ -144,6 +143,19 @@ sub moveFile {
     close $in or die "Can't close file: $!";
     unlink "./alarms/$_[0]";
 }
+
+# Sub rotina para remover um arquivo.
+# Uso : removeFile($nome_arquivo)
+sub removeFile {
+    my @lines = getLines($_[0]);
+    #my $1;
+    
+    open (my $in, '>',  "./archive/$_[0]") or die "Error: Can't create file: $!";
+    print $in @lines;
+    close $in or die "Can't close file: $!";
+    unlink "./alarms/$_[0]";
+}
+
 
 # sub rotina para listar aqruivos de um diretório
 sub listDir {

@@ -17,18 +17,25 @@ string MainFunctions::importAlarm(string file) {
 	
 	if (errors > 0) {
 		//Arquivo corrompido
-		return "ARQUIVO CORROMPIDO";
 		//Move o arquivo para a pasta archive
+			//Executa a função getHeaderData do Perl e passa os valores para o vector header
+			perlwrapper.perlGetArray(file, "getHeaderData", header);
+
+			//Atribui os valores para a varivavel alarm
+			tmpAlarm.setAlarmProtocol("-");
+			tmpAlarm.setAlarmFileName(header[2]);
+			tmpAlarm.setAlarmPlant(header[3]);
+			tmpAlarm.setAlarmType("-");
+			tmpAlarm.setAlarmTime("-");
+			tmpAlarm.setAlarmDate("-");
+			tmpAlarm.setAlarmStatus("Arquivo corrompido");
+			vAlarms.push_back(tmpAlarm);
 		perlwrapper.perlMoveFile(file);
+		return "ARQUIVO CORROMPIDO";
 	}
 
 	//Executa a função getHeaderData do Perl e passa os valores para o vector header
 	perlwrapper.perlGetArray(file, "getHeaderData", header);
-	
-	//qro ver conteudo passado para header  --- EXCLUIR DEPOIS 
-	// cout << "\n\nVETOR header\n\n";
-	// for (unsigned i=1;i<7;i++)
-	// 	cout << header.at(i) << endl; 
 	
 	//Atribui os valores para a varivavel alarm
 	tmpAlarm.setAlarmProtocol(header[1]);
@@ -38,14 +45,16 @@ string MainFunctions::importAlarm(string file) {
 	tmpAlarm.setAlarmTime(header[5]);
 	tmpAlarm.setAlarmDate(header[6]);
 
-
 	//Valida a origem e destino
 
 	if (tmpAlarm.getAlarmFileName().find(tmpAlarm.getAlarmPlant())) {
-		//Origem inválida 
-		return "ORIGEM INVALIDA";
+		//Origem inválida
 		//Move o arquivo para a pasta archive
-		perlwrapper.perlMoveFile(file);
+			tmpAlarm.setAlarmStatus("origem invalida");
+			vAlarms.push_back(tmpAlarm);
+		perlwrapper.perlMoveFile(file); 
+		return "ORIGEM INVALIDA";
+		
 	}
 
 	//Importa os dados de sensores
@@ -71,11 +80,11 @@ string MainFunctions::importAlarm(string file) {
 };
 
 void MainFunctions::listAllAlarms () {
-	cout << "Alarme \t Data \t Hora \t Status\n\n" << endl;
+	cout << "\nAlarme" << setw(20) <<"\t\tData" << setw (12) << "Hora" << setw(20) <<"Status\n" << endl;
 	for (unsigned i=0; i < vAlarms.size(); i++) {
-		cout 	<< vAlarms.at(i).getAlarmFileName() << "\t"
-				<< vAlarms.at(i).getAlarmDate() << "\t"
-				<< vAlarms.at(i).getAlarmTime() << "\t"
+		cout 	<< vAlarms.at(i).getAlarmFileName() << setw(20)
+				<< vAlarms.at(i).getAlarmDate() << setw(12)
+				<< vAlarms.at(i).getAlarmTime() << setw(20)
 				<< vAlarms.at(i).getAlarmStatus() << endl;
 	}
 };
@@ -85,10 +94,10 @@ void MainFunctions::removeAlarm (string target) {
         string tmp = vAlarms.at(i).getAlarmFileName();
         if (!tmp.compare(target)) {
             vAlarms.erase(vAlarms.begin() + i);
+			cout << "Alarme removido." << endl;
             break;
         }
     }
-	cout << "Alarme removido." << endl;
 };
 
 void MainFunctions::editAlarm (string target, string status) {
@@ -113,7 +122,7 @@ void MainFunctions::detailAlarm(string target) {
 void MainFunctions::choosingOption (){
 	int op=1;
 	int selector;
-	string target, target2;
+	string status;
 	vector <string> files;
 		
 	do {
@@ -123,37 +132,63 @@ void MainFunctions::choosingOption (){
 	switch (op) {
 		case 1:
 			files = listDir("./alarms/");
-			cout << "-----Diretório de alarmes-----" << endl;
+			cout << "\n-----Diretório de alarmes-----" << endl;
 			for (unsigned i=0; i < files.size()-2; i++) {
 				cout << i+1 << " - " << files.at(i) << endl;
 			}
-			cout << "Digite numero do alame a ser importado: ";
+			cout << "\nDigite numero do alame a ser importado: ";
 			cin >> selector;
 			if (selector < 1 || selector > files.size()-2) {
 				cout << "Opção inválida" << endl;
 				break;
 			}
-			cout << "\nRESULTADO DE importAlarm: " << importAlarm(files.at(selector-1)) << endl;
+			cout << "\nResultado de importAlarm: " << importAlarm(files.at(selector-1)) << endl;
 			break;
 		case 2:
 			listAllAlarms();
 			break;
 		case 3:
-			cout << "Digite o nome do alarme a ser removido: " << endl;
-			cin >> target;
-			removeAlarm(target); 
+			files = listDir("./archive/");
+			cout << "\n-----Diretório de alarmes arquivados-----" << endl;
+			for (unsigned i=0; i < files.size()-2; i++) {
+				cout << i+1 << " - " << files.at(i) << endl;
+			}
+			cout << "\nDigite numero do alame a ser removido: ";
+			cin >> selector;
+			if (selector < 1 || selector > files.size()-2) {
+				cout << "Opção inválida" << endl;
+			// cout << "Digite o nome do alarme a ser removido: " << endl;
+			// cin >> target;
+			}
+			removeAlarm(files.at(selector-1)); 
 			break;
 		case 4:
-			cout << "Digite o nome do alarme que deseja editar: " << endl;
-			cin >> target;
+			files = listDir("./archive/");
+			cout << "-----Diretório de alarmes arquivados-----" << endl;
+			for (unsigned i=0; i < files.size()-2; i++) {
+				cout << i+1 << " - " << files.at(i) << endl;
+			}
+			cout << "Digite numero do alame a ser editado: ";
+			cin >> selector;
+			if (selector < 1 || selector > files.size()-2) 
+				cout << "Opção inválida" << endl;
+
 			cout << "Digite o status que deseja colocar: ";
-			cin >> target2;
-			editAlarm(target, target2);
+			cin >> status;
+			editAlarm(files.at(selector-1), status);
 			break;
 		case 5:
-			cout << "Digite o nome do alarme que deseja visualizar: " << endl;
-			cin >> target;
-			detailAlarm(target);
+			files = listDir("./archive/");
+			cout << "-----Diretório de alarmes arquivados-----" << endl;
+			for (unsigned i=0; i < files.size()-2; i++) {
+				cout << i+1 << " - " << files.at(i) << endl;
+			}
+			cout << "Digite numero do alame que deseja visualzar: ";
+			cin >> selector;
+			if (selector < 1 || selector > files.size()-2) 
+				cout << "Opção inválida" << endl;
+			
+			detailAlarm(files.at(selector-1));
 			break;
 		case 0:
 			break;	
@@ -172,4 +207,3 @@ vector <string> MainFunctions::listDir (string dir) {
 
 	return files;
 };
-

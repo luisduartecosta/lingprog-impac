@@ -24,7 +24,7 @@ void Util::menu(){
 
 cout << "\n------------- MENU -------------\n" <<endl;
 cout << "1 - iMPORTAR ALARME"<< endl;
-cout << "2 - LISTAR TODOS OS ALARMES" << endl;
+cout << "2 - LISTAR TODOS OS ALARMES VALIDOS" << endl;
 cout << "3 - REMOVER ALARME" << endl;
 cout << "4 - EDITAR ALARME" << endl;
 cout << "5 - MOSTRAR DETALHES DO ALARME" << endl;

@@ -14,6 +14,7 @@ class P2CPP {
         void runInterpreterPerlFile (char *file);
         int perlVerifyIntegrity(string);
         void perlMoveFile(string);
+        void perlRemoveFile(string);
         void perlGetArray (string, string, vector<string> &);
         
     private:

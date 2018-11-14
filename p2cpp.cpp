@@ -62,6 +62,24 @@ void P2CPP::perlMoveFile(string file) {
     LEAVE;
 };
 
+void P2CPP::perlRemoveFile(string file) {
+    dSP;
+    ENTER;
+    SAVETMPS;
+    PUSHMARK(SP);
+    EXTEND(SP,2);
+    XPUSHs(sv_2mortal(newSVpv(file.c_str(), file.length())));
+    PUTBACK;
+    
+    call_pv("removeFile", G_SCALAR);
+
+    SPAGAIN;
+
+    PUTBACK;
+    FREETMPS;
+    LEAVE;
+};
+
 void P2CPP::perlGetArray(string file, string function, vector<string> &vec) {
     dSP;
     int count;
