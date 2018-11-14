@@ -17,6 +17,7 @@ class MainFunctions {
 		void editAlarm(string, string);
 		void detailAlarm(string);
 		void choosingOption();
+		vector <string> listDir(string);
 
 	private:
 		Util utilidades;

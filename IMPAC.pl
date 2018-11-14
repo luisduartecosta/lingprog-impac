@@ -133,9 +133,6 @@ sub getSensorsData {
     return @arrayOfSensors;
 }
 
-my @array = getSensorsData ("CAMPANA2105505.X3");
-print $array[5];
-
 # Sub rotina para mover um arquivo já lido para uma pasta de archive.
 # Visa impedir que um arquivo seja lido mais de uma vez.
 # Uso : moveFile($nome_arquivo)
@@ -145,6 +142,17 @@ sub moveFile {
     open (my $in, '>',  "./archive/$_[0]") or die "Error: Can't create file: $!";
     print $in @lines;
     close $in or die "Can't close file: $!";
-    unlink $_[0];
-    print "moveFile";
+    unlink "./alarms/$_[0]";
+}
+
+# sub rotina para listar aqruivos de um diretório
+sub listDir {
+    my $dir = $_[0];
+    my @files;
+
+    opendir(DIR, $dir);
+    @files = readdir(DIR);
+    closedir(DIR);
+
+    return @files;
 }

@@ -18,6 +18,8 @@ string MainFunctions::importAlarm(string file) {
 	if (errors > 0) {
 		//Arquivo corrompido
 		return "ARQUIVO CORROMPIDO";
+		//Move o arquivo para a pasta archive
+		perlwrapper.perlMoveFile(file);
 	}
 
 	//Executa a função getHeaderData do Perl e passa os valores para o vector header
@@ -42,6 +44,8 @@ string MainFunctions::importAlarm(string file) {
 	if (tmpAlarm.getAlarmFileName().find(tmpAlarm.getAlarmPlant())) {
 		//Origem inválida 
 		return "ORIGEM INVALIDA";
+		//Move o arquivo para a pasta archive
+		perlwrapper.perlMoveFile(file);
 	}
 
 	//Importa os dados de sensores
@@ -108,7 +112,9 @@ void MainFunctions::detailAlarm(string target) {
 
 void MainFunctions::choosingOption (){
 	int op=1;
+	int selector;
 	string target, target2;
+	vector <string> files = listDir("./alarms/");
 		
 	do {
 	utilidades.menu();
@@ -116,9 +122,17 @@ void MainFunctions::choosingOption (){
 
 	switch (op) {
 		case 1:
-			cout << "Digite o nome do alame a ser importado: ";
-			cin >> target;
-			cout << "\nRESULTADO DE importAlarm: " << importAlarm(target) << endl;
+			cout << "-----Diretório de alarmes-----" << endl;
+			for (unsigned i=0; i < files.size()-2; i++) {
+				cout << i+1 << " - " << files.at(i) << endl;
+			}
+			cout << "Digite numero do alame a ser importado: ";
+			cin >> selector;
+			if (selector < 1 || selector > files.size()-2) {
+				cout << "Opção inválida" << endl;
+				break;
+			}
+			cout << "\nRESULTADO DE importAlarm: " << importAlarm(files.at(selector-1)) << endl;
 			break;
 		case 2:
 			listAllAlarms();
@@ -146,4 +160,15 @@ void MainFunctions::choosingOption (){
 	} while (op !=0);
 
 }; //fim choosingOption
+
+vector <string> MainFunctions::listDir (string dir) {
+	vector <string> files;
+
+	//Interpretador apondo para o arquivo perl
+	perlwrapper.runInterpreterPerlFile((char*)"IMPAC.pl");
+
+	perlwrapper.perlGetArray(dir, "listDir", files);
+
+	return files;
+};
 
