@@ -19,8 +19,6 @@ return opt;
 }  // verificar aqui se retorna int ou static int   !!!!!!
 
 
-
-
 // EXIBE MENU
 void Util::menu(){
 
